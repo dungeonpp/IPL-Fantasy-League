@@ -2,11 +2,13 @@ package com.dao;
 
 import java.util.*;
 
-import model.*;
+import com.model.Bidder;
+import com.model.Match;
+
 
 public interface AdminDao {
-	public void addTeams(Team team);
-	public void addMatches(Match match);
+	public void addTeams();//Swati is still working on it
+	public void addMatches();//
 	public List<Match> getMatch();
 	public void endTournaments();
 	public List<Bidder>showPreviousWinner();

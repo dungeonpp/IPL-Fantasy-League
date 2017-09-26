@@ -1,4 +1,4 @@
-package dao.bidder.implementations;
+package com.dao.daoimpl;
 
 import java.util.Scanner;
 
@@ -8,7 +8,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 
-import model.Bidder;  
+import com.model.Bidder;  
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -36,7 +36,7 @@ public class Test2{
 
 
 			System.out.println("Enter mobile");
-			String mno = sc.next();
+			String mno = sc.nextLine();
 			bidder.setMobile(mno);
 
 

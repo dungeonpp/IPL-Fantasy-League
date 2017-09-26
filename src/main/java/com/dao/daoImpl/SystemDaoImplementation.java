@@ -1,4 +1,4 @@
-package com.dao.daoImpl;
+package com.dao.daoimpl;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -10,11 +10,11 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 
-import dao.SystemDao;
-import model.Bidder;
-import model.BiddingDetail;
-import model.Match;
-import model.Team;
+import com.dao.SystemDao;
+import com.model.Bidder;
+import com.model.BiddingDetail;
+import com.model.Match;
+import com.model.Team;
 
 public class SystemDaoImplementation implements SystemDao {
 	static List<Team> team = new ArrayList<Team>();
@@ -177,7 +177,7 @@ public class SystemDaoImplementation implements SystemDao {
 			
 		}
 		else{
-			result ="You lost the bid for match : "+ match.getTeam1().getTeamName()+ " vs. " + match.getTeam2().getTeamName()+ "as" + winner + "won the match ";
+			result ="You lost the bid for match : "+ match.getTeam1().getTeamName()+ " vs. " + match.getTeam2().getTeamName()+ " as " + winner + " won the match ";
 		}
 		t.commit();
 		session.close();

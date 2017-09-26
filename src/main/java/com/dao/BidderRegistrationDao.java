@@ -1,14 +1,10 @@
-package dao.bidder;
+package com.dao;
 
-import model.Bidder;
-
-//import java.util.*;
+import com.model.Bidder;
 
 public interface BidderRegistrationDao {
 	
 	public boolean validateRegistration(Bidder bidder);
-	
-	
 	public void saveRegistration(Bidder bidder);
 	
 

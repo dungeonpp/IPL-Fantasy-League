@@ -6,6 +6,6 @@ public interface SystemDao {
 
 	void updateTeamPoints(int matchId);
 	void updateBidderPoints(int bidderId,int points);
-	String sendResultToBidder(int matchId,int bidId);
+	String sendResultToBidder(int bidderId,int bidId);
 
 }

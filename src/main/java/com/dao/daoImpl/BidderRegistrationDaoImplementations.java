@@ -1,4 +1,4 @@
-package com.dao.daoImpl;
+package com.dao.daoimpl;
 
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -7,8 +7,8 @@ import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 
 //import java.util.*;
-import dao.bidder.BidderRegistrationDao;
-import model.Bidder;
+import com.dao.BidderRegistrationDao;
+import com.model.Bidder;
 
 public class BidderRegistrationDaoImplementations implements BidderRegistrationDao {
 	
@@ -45,11 +45,8 @@ public class BidderRegistrationDaoImplementations implements BidderRegistrationD
 	@Override
 	public void saveRegistration(Bidder bidder) {
 		
-		//Bidder bidder1 = new Bidder();
-
 	    Configuration cfg=new Configuration();  
 	    cfg.configure("hibernate.cfg.xml");//populates the data of the configuration file  
-	    //creating session factory object  
 	    SessionFactory factory=cfg.buildSessionFactory();  
 	    //creating session object  
 	    Session session=factory.openSession();  

@@ -1,4 +1,4 @@
-package com.dao.daoImpl;
+package com.dao.daoimpl;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -9,8 +9,8 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 
-import dao.bidder.BidderLoginDao;
-import model.Bidder;
+import com.dao.BidderLoginDao;
+import com.model.Bidder;
 
 
 public class BidderLoginDaoImp implements BidderLoginDao {
@@ -26,7 +26,7 @@ public class BidderLoginDaoImp implements BidderLoginDao {
 		Session session=factory.openSession();
 		Transaction t=session.beginTransaction();
 		b = session.createQuery("from Bidder s").list();
-		System.out.println("Details");
+		System.out.println("Detaiiiiiiiilssssss");
 		for (Bidder bidder : b)
 		{
 			
@@ -37,7 +37,7 @@ public class BidderLoginDaoImp implements BidderLoginDao {
 			}
 			else
 			{
-				System.out.println("Sorry!!! match not found ");
+				System.out.println("Sooooooooooorrrrrrrry match not found ");
 			}
 
 		}
