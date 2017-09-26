@@ -39,6 +39,51 @@ public class AdminDaoImplementation implements AdminDao {
 		session.close();
 		Connection.shutdown();
 	}
+	
+	@Override
+	public void addTeams() {
+		try{
+			
+			
+			FileInputStream input = new FileInputStream("C:\\Users\\Administrator\\Desktop\\ipl_demo.xls");
+			POIFSFileSystem fs = new POIFSFileSystem( input );
+			HSSFWorkbook wb = new HSSFWorkbook(fs);
+			HSSFSheet sheet = wb.getSheetAt(0);
+			Row row;
+			for(int i=1; i<=sheet.getLastRowNum(); i++){
+				Configuration cfg=new Configuration().configure("hibernate.cfg.xml");		
+				SessionFactory factory=cfg.buildSessionFactory();
+				Session session=factory.openSession();
+				Transaction t=session.beginTransaction();
+				
+				row = sheet.getRow(i);
+			
+				String teamA = row.getCell(1).getStringCellValue();
+				
+				//List<String> team1=new ArrayList<String>();
+				//team1.add(teamA);
+				
+				//System.out.println(team1);
+				
+				Team team=new Team();
+				
+				team.setTeamName(teamA);
+				session.save(team);
+				t.commit();
+				session.close();
+						
+			}
+			
+			Connection.shutdown();
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+
+
+		
+
+	}
+
 
 	@Override
 	public void addMatches() {
