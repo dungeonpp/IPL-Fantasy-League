@@ -23,6 +23,69 @@ import model.Team;
 
 public class BidderDaoImplementation implements BidderDao
 {
+		@Override
+	public List<String> showLeaderboard() {
+
+		List<Bidder> b=new ArrayList<Bidder>();
+		List<String> output=new ArrayList<String>();
+		
+		try
+		{
+		Configuration cfg=new Configuration().configure("hibernate.cfg.xml");		
+		SessionFactory factory=cfg.buildSessionFactory();
+		Session session=factory.openSession();
+		Transaction t=session.beginTransaction();
+		
+		b = session.createQuery("from Bidder s").list();
+		if(b.size()>0){
+			for (Bidder bidder : b) 
+			{
+				System.out.println(bidder.getBidderName()+" : "+bidder.getBidderPoints());
+			}
+		}
+		t.commit();
+		session.close();
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+	
+		return output;
+		
+
+	}
+
+	@Override
+	public List<String> showTeamPoints() {
+		List<Team> team=new ArrayList<Team>();
+		List<String> output=new ArrayList<String>();
+		
+		try
+		{
+		Configuration cfg=new Configuration().configure("hibernate.cfg.xml");		
+		SessionFactory factory=cfg.buildSessionFactory();
+		Session session=factory.openSession();
+		Transaction t=session.beginTransaction();
+		
+		team = session.createQuery("from Team s").list();
+		if(team.size()>0){
+			for (Team teamDetails : team) 
+			{
+				System.out.println(teamDetails.getTeamName()+" : "+teamDetails.getTeamPoint());
+			}
+		}
+		t.commit();
+		session.close();
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+	
+		return output;
+	
+
+	}
+
 	@Override
 	public void updateProfile(int bidderId)
 	{
