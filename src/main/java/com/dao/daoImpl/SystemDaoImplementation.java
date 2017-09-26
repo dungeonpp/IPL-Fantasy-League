@@ -58,56 +58,50 @@ public class SystemDaoImplementation implements SystemDao {
 					if (rowsAffected > 0) {
 					    System.out.println("Updated " + rowsAffected + " rows.");
 					}
-				}
-				
+				}			
 			}
-			
-			
-	
+
 		}
 		//UPDATING TEAM POINTS OF TEAMS IN DRAWN MATCHES BY 1
 		
 		if(team.size()>0){
 			for (Team teamDetails : team){
-				if(teamDetails.getTeamName().equalsIgnoreCase(match.getMatchWinner())){
-					int teamIdforUpdation = teamDetails.getTeamId();
-					String hql = "update Team set team_point = team_point+3 where team_id = :teamIdForUpdate";					 
-					
-					Query query = session.createQuery(hql);
-					query.setParameter("teamIdForUpdate",teamIdforUpdation );
-					int rowsAffected = query.executeUpdate();
-					if (rowsAffected > 0) {
-					    System.out.println("Updated " + rowsAffected + " rows.");
-					}
-				}	
-			}			
-		}
-/*		
-		team = session.createQuery("from Team s").list();
-		if(team.size()>0){
-			for (Team teamDetails : team) 
-			{
-				for (Team drawnTeam : drawnMatchTeam2) 
-				{
-					if(drawnTeam.getTeamName().equalsIgnoreCase(teamDetails.getTeamName())){
-						String hql = "update Team set team_points = team_points+1 where team_id = :teamIdForUpdate";
-						 
+				for(Team drawDetails : drawnMatchTeam1){
+					if(teamDetails.getTeamName().equalsIgnoreCase(drawDetails.getTeamName())){
+						int teamIdforUpdation = teamDetails.getTeamId();
+						String hql = "update Team set team_point = team_point+1 where team_id = :teamIdForUpdate";					 
+						
 						Query query = session.createQuery(hql);
-				
-						query.setParameter("teamIdForUpdate", teamId);
-						 
+						query.setParameter("teamIdForUpdate",teamIdforUpdation );
 						int rowsAffected = query.executeUpdate();
 						if (rowsAffected > 0) {
 						    System.out.println("Updated " + rowsAffected + " rows.");
-						}						
-					}					
-				}					
-			}			
-		}*/
-		
+						}
+					}
+					
+			}
+
+		if(team.size()>0){
+			for (Team teamDetails2 : team){
+				for(Team drawDetails2 : drawnMatchTeam2){
+					if(teamDetails2.getTeamName().equalsIgnoreCase(drawDetails2.getTeamName())){
+						int teamIdforUpdation = teamDetails.getTeamId();
+						String hql = "update Team set team_point = team_point+1 where team_id = :teamIdForUpdate";					 
+						
+						Query query = session.createQuery(hql);
+						query.setParameter("teamIdForUpdate",teamIdforUpdation );
+						int rowsAffected = query.executeUpdate();
+						if (rowsAffected > 0) {
+						    System.out.println("Updated " + rowsAffected + " rows.");
+						}
+					}
+					
+					}
+				}	
+		}
 
 		t.commit();
-		session.close();}
+		session.close();}}}
 		catch(Exception e)
 		{
 			e.printStackTrace();
@@ -145,12 +139,8 @@ public class SystemDaoImplementation implements SystemDao {
 	}
 
 	@Override
-	public List<String> sendResultToBidder(int bidderId,int bidId) {
-		List<Bidder> bidderList=new ArrayList<Bidder>();
-		List<BiddingDetail> biddingList=new ArrayList<BiddingDetail>();
-		
-		List<String> output=new ArrayList<String>();
-		
+	public String sendResultToBidder(int matchId,int bidId) {
+		String result = null;
 		try
 		{
 		Configuration cfg=new Configuration().configure("hibernate.cfg.xml");		
@@ -158,15 +148,36 @@ public class SystemDaoImplementation implements SystemDao {
 		Session session=factory.openSession();
 		Transaction t=session.beginTransaction();
 		
-		bidderList = session.createQuery("from bidder s").list();
-		biddingList = session.createQuery("from bidding_details s").list();
-		if(bidderList.size()>0 && biddingList.size()>0){
-			for (BiddingDetail bid : biddingList) 
-			{
-//				if(bid.getTeam())
-				/*System.out.println(bidder.getBidderName()+" : "+bidder.getBidderPoints());*/
-				
-			}
+		Team teamDetails = new Team();
+		
+		//match ka object for that matchId which is winner
+		Match match = new Match();
+		match=(Match) session.get(Match.class,matchId);
+		
+		//This team won the match
+		String winner = match.getMatchWinner();
+		
+		//bid ka object for that bidId
+		BiddingDetail bid = new BiddingDetail();
+		bid = (BiddingDetail) session.get(BiddingDetail.class, bidId);
+		
+		//bid wala team object
+		Team bidTeam = new Team();
+		bidTeam = (Team) session.get(Team.class,bid.getTeam().getTeamId());
+	
+		int bidTeamId = bidTeam.getTeamId();
+		int matchTeamId = 0;
+		
+		if (match.getMatchWinner().equals(teamDetails.getTeamName())){
+			matchTeamId = teamDetails.getTeamId();
+		}
+		
+		if(bidTeamId == matchTeamId){
+			 result = "You won the bid for match : "+ match.getTeam1().getTeamName()+ " vs. " + match.getTeam2().getTeamName();
+			
+		}
+		else{
+			result ="You lost the bid for match : "+ match.getTeam1().getTeamName()+ " vs. " + match.getTeam2().getTeamName()+ "as" + winner + "won the match ";
 		}
 		t.commit();
 		session.close();
@@ -175,7 +186,7 @@ public class SystemDaoImplementation implements SystemDao {
 			e.printStackTrace();
 		}
 	
-		return output;
+		return result;
 	}
 
 }
