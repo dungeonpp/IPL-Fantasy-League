@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html>
 <head>
 
     <meta charset="utf-8">
@@ -8,8 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
-
-    <title>Bidder Registration </title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+    <style type="text/css">
+      p{color:red;}  
+    </style>
+    <title>Update Profile </title>
 
     <!-- Bootstrap Core CSS -->
     <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -35,7 +37,7 @@
 
 </head>
 
-<body>
+<body ng-app="">
             <div class="row">
                 <div class="col-lg-12">
                     <div class="panel panel-default">
@@ -43,40 +45,51 @@
                           <h3><b>Bidder Registration Form</b></h3> 
                         </div>
                         <div class="panel-body">
+                        <form class="myForm" name="userForm">
                             <div class="row">
                                 <div class="col-lg-6">
-    
-                                        <form role="form" action="BidderRegistrationProcess.jsp" method="POST">
+                                    <form role="form" action="BidderRegistrationProcess.jsp" method="POST">
                                         <div class="form-group">
                                             <label>Bidder Name</label>
-                                            <input class="form-control" name="bidderName" placeholder="Enter name">
+                                            <input class="form-control" name="bidderName" ng-model="bidderName" placeholder="Enter name" required>
+                                            <span ng-show="userForm.bidderName.$touched && userForm.bidderName.$error.required"><p>Please enter username</p></span>
                                         </div>
 
                                         <div class="form-group">
                                             <label>Email</label>
-                                            <input class="form-control" type="email" name="email" placeholder="Enter email">
+                                            <input class="form-control" type="email" name="emailId" ng-model="emailId" placeholder="Enter email" required="">
+                                            <span ng-show="userForm.emailId.$touched && userForm.emailId.$error.required"><p>Please enter email</p></span>
+                                            <span ng-show="userForm.emailId.$touched && userForm.emailId.$error.email"><p>Invalid email</p></span>
                                         </div>
 
                                         <div class="form-group">
                                             <label>Password</label>
-                                            <input class="form-control" type="password" name="password" placeholder="Enter password">
+                                            <input class="form-control" type="password" name="password" ng-model="password" placeholder="Enter password" ng-minlength="6" ng-maxlength="10" required>
+                                            <span ng-show="userForm.password.$touched && userForm.password.$error.required"><p>Please enter password</p></span>
+                                            <span ng-show="userForm.password.$touched && userForm.password.$error.minlength"><p>password length invalid</p></span> 
+                                            <span ng-show="userForm.password.$touched && userForm.password.$error.maxlength"><p>password length invalid</p></span>
                                         </div>
 
                                         <div class="form-group">
                                             <label>Mobile</label>
-                                            <input class="form-control" type="text" name="mobile" placeholder="Enter contact number">
+                                            <input class="form-control" type="number" name="mobile" ng-model="mobile" placeholder="Enter contact number" ng-pattern="/^[0-9]{10}$/" required>
+                                            <span ng-show="userForm.mobile.$touched && userForm.mobile.$error.required"><p>Please enter mobile</p></span>
+                                            <span ng-show="userForm.mobile.$touched && userForm.mobile.$error.pattern"><p>Invalid mobile</p> 
+                                            </span>
                                         </div>
                                         <div>
                                             <button type="submit" class="btn btn-primary">Submit</button>
                                             <button type="reset" class="btn btn-primary" >Reset</button>
                                         </div>
+                                        
                                         </form>
-                                </div>
-                            </div>
+                                
+                            
                         </div>
                     </div>
                 </div>
             </div>
+            
 </body>
 </html>
 
